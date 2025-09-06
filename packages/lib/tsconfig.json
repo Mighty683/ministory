@@ -22,5 +22,5 @@
       "@/*": ["src/*"]
     },
   },
-  "include": ["src", "packages/test/build.ts"]
+  "include": ["src", "packages/test/build.ts", "./env.d.ts"]
 }

@@ -1,6 +1,12 @@
 import { dirname, resolve } from "path";
 import { existsSync } from "fs";
 import { glob } from "fs/promises";
+import { fileURLToPath } from "url";
+
+export function getLibraryRoot(): string {
+  console.log(import.meta.url);
+  return fileURLToPath(new URL("../", import.meta.url));
+}
 
 export function getProjectRoot(): string {
   let currentDir = process.cwd();
@@ -16,7 +22,10 @@ export function getProjectRoot(): string {
 
 export async function readGlobFiles(pattern: string): Promise<string[]> {
   const files: string[] = [];
-  for await (const file of glob("**/*")) {
+  const projectRoot = getProjectRoot();
+  for await (const file of glob(pattern, {
+    cwd: projectRoot,
+  })) {
     files.push(file);
   }
   return files;
